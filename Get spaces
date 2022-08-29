@@ -1,0 +1,7 @@
+import ifcopenshell
+import bpy
+from blenderbim.bim.ifc import IfcStore
+file = IfcStore.get_file()
+spaces = file.by_type("IfcSpace")
+
+len(spaces)
