@@ -5,3 +5,6 @@ file = IfcStore.get_file()
 spaces = file.by_type("IfcSpace")
 
 len(spaces)
+
+
+Hej jones
