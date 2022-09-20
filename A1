@@ -1,1 +1,55 @@
+##################################################
+##### Opening the IFC interface and packages #####
+##################################################
+
+import ifcopenshell
+import ifcopenshell.geom
+from blenderbim.bim.ifc import IfcStore
+
+##################################################
+##### Retriving source model                 #####
+##################################################
+
+file = IfcStore.get_file()
+
+##################################################
+##### Extracting beams and columns           #####
+##################################################
+
+Beams = file.by_type("IfcBeam")
+Columns = file.by_type("IfcColumn")
+
+#### testing for possible errors: ####
+
+if len(Columns) <= 0:    #logical testing if 'Columns' string is of lenght >0
+    answer = input('ERROR missing columns. Do you want to continue? (yes or no):')  #Creating answer menu
+    if answer.lower().startswith("yes"):    #Criteria if answer = yes
+        print("Proceeding without columns")
+        Columns = 0
+    elif answer.lower().startswith("no"):   #Criteria if answer = no
+        print("Executing process. Please update source model")
+        exit()
+
+if len(Beams) <= 0:
+    answer = input('ERROR missing beams. Do you want to continue? (yes or no):')
+    if answer.lower().startswith("yes"):
+        print("Proceeding without beams")
+        Beams = 0
+    elif answer.lower().startswith("no"):
+        print("Executing process. Please update source model")
+        exit()
+
+
+##################################################
+##### Extracting beams and column properties #####
+##################################################
+
+    
+
+
+
+##################################################
+##### Calculating structural properties      #####
+##################################################
+
 
