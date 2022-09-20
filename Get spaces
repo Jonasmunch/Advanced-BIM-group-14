@@ -1,7 +1,41 @@
-import ifcopenshell
-import bpy
-from blenderbim.bim.ifc import IfcStore
-file = IfcStore.get_file()
-spaces = file.by_type("IfcSpace")
+##################################################
+##### Opening the IFC interface and packages #####
+##################################################
 
-len(spaces)
+import ifcopenshell
+import ifcopenshell.geom
+from blenderbim.bim.ifc import IfcStore
+
+##################################################
+##### selecting workingdictionary #####
+##################################################
+
+ifc = ifcopenshell.open(IfcStore.path)
+
+##################################################
+##### Commandline #####
+##################################################
+
+# Identifying number building properties:
+spaces = file.by_type('IfcSpace')           #creating list of spaces
+levels = file.by_type('IfcBuildingStorey')  #creating list of levels
+materials = file.by_type('IfcMaterial')
+
+print("number of spaces:"); len(spaces)   #len = lenght of vector
+print("number of Levels:"); len(levels)
+print("number of Materials:"); len(materials)
+
+# Identifying name of building properties:
+for space in spaces:
+    print(space.LongName)
+
+for level in levels:
+    print(level.Name)
+
+for material in materials:
+    print(material.Name)    # skal redigeres sådan at navnet refferers korrekt.
+
+# Identifying building areas:
+
+
+
