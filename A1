@@ -47,13 +47,14 @@ if len(Beams) <= 0:
 ########### Oscar Bidrag ####################
 
 ##### beams #####
-for beam in Beams:
-    BeamsName = beam.ObjectType   #gets the names of each beam
+BeamsName = beam.ObjectType   #gets the names of each beam
+    LenBeam = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
+    VolBeam = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue
+    AreaBeam = VolBeam/LenBeam  # Find area metod 1
+    
     HeigthBeam = int(BeamsName[17:20])
     WidthBeam = int(BeamsName[21:23])
-    AreaBeam = HeigthBeam*WidthBeam 
-    print(AreaBeam)
-break
+    AreaBeam2 = HeigthBeam*WidthBeam # Find area metod 2
  
 ##### beams #####
 for column in Columns:   #virker ikke
