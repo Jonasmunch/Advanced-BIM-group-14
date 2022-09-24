@@ -68,6 +68,9 @@ break
 BeamMaterial = []
 BeamLenght = []
 BeamCrossArea = []
+x_Placement = []
+y_Placement = []
+z_Placement = []
 
 # Looping through all beams
 for beam in Beams:
@@ -80,9 +83,23 @@ for beam in Beams:
     pval_length = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
     BeamCrossArea.append(pval_volume/pval_length)
 
+# Looping through all beams
+for beam in Beams:
+    # Extracting local placement matrix
+    pmatrix = ifcopenshell.util.placement.get_local_placement(beam.ObjectPlacement)
+    # Extracting axis placement and assigning them to placement_vector
+    x_Placement.append(pmatrix[0,3])
+    y_Placement.append(pmatrix[1,3])
+    z_Placement.append(pmatrix[2,3])
+
+# Creating total placement matrix
+PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
+
+# Printing results
 print(BeamMaterial)
 print(BeamLenght)
 print(BeamCrossArea)
+print(PMatrix)
 
    
 
