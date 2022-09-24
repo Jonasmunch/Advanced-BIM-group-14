@@ -44,7 +44,9 @@ if len(Beams) <= 0:
 ##### Extracting beams and column properties #####
 ##################################################
 
-    
+##### beams #####
+for beam in Beams:
+    BeamsName = beam.Name   #gets the names of each beam
 
 
 
