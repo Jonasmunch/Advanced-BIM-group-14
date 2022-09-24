@@ -46,12 +46,21 @@ if len(Beams) <= 0:
 
 ##### beams #####
 for beam in Beams:
-    BeamsName = beam.Name   #gets the names of each beam
+    BeamsName = beam.ObjectType   #gets the names of each beam
+    HeigthBeam = int(BeamsName[17:20])
+    WidthBeam = int(BeamsName[21:23])
+    AreaBeam = HeigthBeam*WidthBeam 
+    print(AreaBeam)
+break
+ 
+##### beams #####
+for column in Columns:   #virker ikke
+    ColumnsName = columns.ObjectType
+    DeepthBeam = ColumnsName[17:20]
+    WidthBeam = ColumnsName[21:23]
+break
 
+ 
 
-
-##################################################
-##### Calculating structural properties      #####
-##################################################
-
+   
 
