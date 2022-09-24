@@ -44,6 +44,8 @@ if len(Beams) <= 0:
 ##### Extracting beams and column properties #####
 ##################################################
 
+########### Oscar Bidrag ####################
+
 ##### beams #####
 for beam in Beams:
     BeamsName = beam.ObjectType   #gets the names of each beam
@@ -60,7 +62,27 @@ for column in Columns:   #virker ikke
     WidthBeam = ColumnsName[21:23]
 break
 
- 
+########### Joakim Bidrag ####################
+
+# Creating empty property vectors 
+BeamMaterial = []
+BeamLenght = []
+BeamCrossArea = []
+
+# Looping through all beams
+for beam in Beams:
+    # Extracting Beam material, adding it to the property vector
+    BeamMaterial.append(beam.IsDefinedBy[3].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    # Extracting Beam Lenght, adding it to the property vector
+    BeamLenght.append(beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    # Extracting Beam crosssectional area, adding it to the property vector
+    pval_volume = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue
+    pval_length = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
+    BeamCrossArea.append(pval_volume/pval_length)
+
+print(BeamMaterial)
+print(BeamLenght)
+print(BeamCrossArea)
 
    
 
