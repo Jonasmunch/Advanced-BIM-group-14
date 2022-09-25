@@ -44,34 +44,13 @@ if len(Beams) <= 0:
 ##### Extracting beams and column properties #####
 ##################################################
 
-########### Oscar Bidrag ####################
-
-##### beams #####
-BeamsName = beam.ObjectType   #gets the names of each beam
-    LenBeam = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
-    VolBeam = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue
-    AreaBeam = VolBeam/LenBeam  # Find area metod 1
-    
-    HeigthBeam = int(BeamsName[17:20])
-    WidthBeam = int(BeamsName[21:23])
-    AreaBeam2 = HeigthBeam*WidthBeam # Find area metod 2
- 
-##### beams #####
-for column in Columns:   #virker ikke
-    ColumnsName = columns.ObjectType
-    DeepthBeam = ColumnsName[17:20]
-    WidthBeam = ColumnsName[21:23]
-break
-
-########### Joakim Bidrag ####################
+# Utility_placement
+#       ifcopenshell.util.placement.get_local_placement(Beams[0].ObjectPlacement)
 
 # Creating empty property vectors 
 BeamMaterial = []
 BeamLenght = []
 BeamCrossArea = []
-x_Placement = []
-y_Placement = []
-z_Placement = []
 
 # Looping through all beams
 for beam in Beams:
@@ -83,6 +62,12 @@ for beam in Beams:
     pval_volume = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue
     pval_length = beam.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
     BeamCrossArea.append(pval_volume/pval_length)
+
+
+# Creating empty property vectors
+x_Placement = []
+y_Placement = []
+z_Placement = []
 
 # Looping through all beams
 for beam in Beams:
@@ -96,11 +81,31 @@ for beam in Beams:
 # Creating total placement matrix
 PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
 
+
+# Creating empty property vectors
+# bf: flange with,  d: boddy flange height,  k:  ,  kr:  ,  tf: flange thickness,  tw: body flange thickness
+bf = []
+d  = []
+k  = []
+kr = []
+tf = []
+tw = []
+
+# Looping through all beams
+for beam in Beams:
+    bf.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    d.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue)
+    k.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][2].NominalValue.wrappedValue)
+    kr.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][3].NominalValue.wrappedValue)
+    tf.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][4].NominalValue.wrappedValue)
+    tw.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][5].NominalValue.wrappedValue)
+
+# Creating total crossection matrix
+CMatrix = [[bf], [d], [k], [kr], [tf], [tw]]
+
 # Printing results
 print(BeamMaterial)
 print(BeamLenght)
 print(BeamCrossArea)
 print(PMatrix)
-
-   
-
+print(CMatrix)
