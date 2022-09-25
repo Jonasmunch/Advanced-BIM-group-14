@@ -44,9 +44,7 @@ if len(Beams) <= 0:
 ##### Extracting beams and column properties #####
 ##################################################
 
-# Utility_placement
-#       ifcopenshell.util.placement.get_local_placement(Beams[0].ObjectPlacement)
-
+#### Extracting Material, Lenght and Cross area ####
 # Creating empty property vectors 
 BeamMaterial = []
 BeamLenght = []
@@ -64,6 +62,7 @@ for beam in Beams:
     BeamCrossArea.append(pval_volume/pval_length)
 
 
+#### Extracting Element placement ####
 # Creating empty property vectors
 x_Placement = []
 y_Placement = []
@@ -82,6 +81,7 @@ for beam in Beams:
 PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
 
 
+#### Extracting Element Cross section ####
 # Creating empty property vectors
 # bf: flange with,  d: boddy flange height,  k:  ,  kr:  ,  tf: flange thickness,  tw: body flange thickness
 bf = []
@@ -103,7 +103,7 @@ for beam in Beams:
 # Creating total crossection matrix
 CMatrix = [[bf], [d], [k], [kr], [tf], [tw]]
 
-# Printing results
+#### Printing results ####
 print(BeamMaterial)
 print(BeamLenght)
 print(BeamCrossArea)
