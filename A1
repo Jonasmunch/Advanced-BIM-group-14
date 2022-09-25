@@ -41,7 +41,7 @@ if len(Beams) <= 0:
 
 
 ##################################################
-##### Extracting beams and column properties #####
+##### Extracting Beam properties             #####
 ##################################################
 
 #### Extracting Material, Lenght and Cross area ####
@@ -78,7 +78,7 @@ for beam in Beams:
     z_Placement.append(pmatrix[2,3])
 
 # Creating total placement matrix
-PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
+beam_PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
 
 
 #### Extracting Element Cross section ####
@@ -101,11 +101,83 @@ for beam in Beams:
     tw.append(beam.IsDefinedBy[12].RelatingPropertyDefinition[4][5].NominalValue.wrappedValue)
 
 # Creating total crossection matrix
-CMatrix = [[bf], [d], [k], [kr], [tf], [tw]]
+beam_CMatrix = [[bf], [d], [k], [kr], [tf], [tw]]
 
-#### Printing results ####
+
+##################################################
+##### Extracting Column properties             #####
+##################################################
+
+#### Extracting Material, Lenght and Cross area ####
+# Creating empty property vectors 
+ColumnMaterial = []
+ColumnLenght = []
+ColumnCrossArea = []
+
+# Looping through all beams
+for column in Columns:
+    # Extracting Column material, adding it to the property vector
+    ColumnMaterial.append(column.IsDefinedBy[3].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    # Extracting Column Lenght, adding it to the property vector
+    ColumnLenght.append(column.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    # Extracting Column crosssectional area, adding it to the property vector
+    pval_volume = column.IsDefinedBy[4].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue
+    pval_length = column.IsDefinedBy[4].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue
+    ColumnCrossArea.append(pval_volume/pval_length)
+
+
+#### Extracting Element placement ####
+# Creating empty property vectors
+x_Placement = []
+y_Placement = []
+z_Placement = []
+
+# Looping through all beams
+for column in Columns:
+    # Extracting local placement matrix
+    pmatrix = ifcopenshell.util.placement.get_local_placement(column.ObjectPlacement)
+    # Extracting axis placement and assigning them to placement_vector
+    x_Placement.append(pmatrix[0,3])
+    y_Placement.append(pmatrix[1,3])
+    z_Placement.append(pmatrix[2,3])
+
+# Creating total placement matrix
+column_PMatrix = [[x_Placement], [y_Placement], [z_Placement]]
+
+
+#### Extracting Element Cross section ####
+# Creating empty property vectors
+# bf: flange with,  d: boddy flange height,  k:  ,  kr:  ,  tf: flange thickness,  tw: body flange thickness
+bf = []
+d  = []
+k  = []
+kr = []
+tf = []
+tw = []
+
+# Looping through all columns
+for column in Columns:
+    bf.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][0].NominalValue.wrappedValue)
+    d.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][1].NominalValue.wrappedValue)
+    k.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][2].NominalValue.wrappedValue)
+    kr.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][3].NominalValue.wrappedValue)
+    tf.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][4].NominalValue.wrappedValue)
+    tw.append(column.IsDefinedBy[12].RelatingPropertyDefinition[4][5].NominalValue.wrappedValue)
+
+# Creating total crossection matrix
+column_CMatrix = [[bf], [d], [k], [kr], [tf], [tw]]
+
+
+#### Printing Beam results ####
 print(BeamMaterial)
 print(BeamLenght)
 print(BeamCrossArea)
-print(PMatrix)
-print(CMatrix)
+print(beam_PMatrix)
+print(beam_CMatrix)
+
+#### Printing Column results ####
+print(ColumnMaterial)
+print(ColumnLenght)
+print(ColumnCrossArea)
+print(column_PMatrix)
+print(column_CMatrix)
