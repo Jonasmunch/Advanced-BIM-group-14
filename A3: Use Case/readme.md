@@ -13,7 +13,7 @@ Se PDF “BIM Use assignment”
 3B: Propose a (design for a) tool / workflow (OHH) 
 
 Process: model the process diagram from your use case in BPMN.io please remember to save the .bpmn file and you can save a .svg file that you can insert into your report. 
-<IMG src="IMG/A3_BPMN_Group_14.svg">
+<IMG src="IMG_folder/A3_BPMN_Group_14.svg">
 
 description of the process of your tool / workflow. 
 
