@@ -41,7 +41,7 @@ If there isn't any the tool will stop. If there is some then it will extract the
 See attached excel file.
  
 ### 6) *IFC*
-- Find in the IFC:
+- Find in the IFC:/
     To extract the relevant data for calculating if every structural element in the building comply with the given loads, the following IFC entities an
     properties have to be found: 
 
@@ -53,7 +53,7 @@ See attached excel file.
 
     - Location: x, y and z location in the building, storey. 
 
-- Find in an external sources i.e. BR18: 
+- Find in an external sources i.e. BR18:/ 
     For the calculations of the structural elements to be useful, they have to comply with the norms in BR18 and Eurocode.  
     For BR18 an element must live up to the requirements of e.g. fire safety. Structural elements must be placed in a way that there can be enough
     emergency exits and they must be constructed in way which does not catch fire. 
