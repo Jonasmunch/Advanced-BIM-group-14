@@ -1,10 +1,11 @@
 
-# 3A: Analyse use case
+## 3A: Analyse use case
+***
 
-## 1)
+### 1) *Goal of the tool / workflow*
 To single out critical bearing elements for further structural analysis in the design face. 
 
-### 2)
+### 2) 
 Se PDF “BIM Use assignment” 
 
 
