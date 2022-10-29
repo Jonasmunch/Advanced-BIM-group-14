@@ -8,7 +8,8 @@ To single out critical bearing elements for further structural analysis in the d
 ### 2) *Model Use (Bim Uses)*
 
 BIM Use: 
-
+-Fasility element: 
+--substructure
 
 
 # 3B: Propose a (design for a) tool / workflow
