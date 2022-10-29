@@ -8,20 +8,25 @@ To single out critical bearing elements for further structural analysis in the p
 ### 2) *Model Use (Bim Uses)*
 
 The tool will apply a primary pupurse of ***Analysis*** and a secondary purpurse of ***Forecast***. 
-The tool is applied in the ***Design face*** for detecting bearing elements from the ***Substructure*** facility elements. 
-This is done to perform simple ***structural analysis*** in order to extract critical bearing elements for further analysis and design. 
+The tool is applied in the ***Design face*** for detecting bearing elements from the ***Shell*** facility elements. 
+This is done to perform simple ***structural analysis*** in order to extract critical bearing elements for further analysis. This at the ***LOD of 200*** in order to later document the structural compliance with the building standarts at LOD 300.
 
-BIM Use overview:\
+
+BIM Use overview:
 - **Primary Purpurse:**
-    - *Analysis*
+    - Analysis
 - **Secondary Purpurse:**
-    - *Forecast*
+    - Forecast
+        - *Structural Performance*
 - **Facility element:**
-    - *Substructure*
+    - Shell
+        - *Bearing elements from the Superstructure and the Exterior Enclosure*
 - **Facility face:**
-    - *Design face*
+    - Design face
 - **Discipline:**
-    - *Structural analysis*
+    - Structural analysis
+- **Level of Development (LOD)**
+    - 200
 
 # 3B: Propose a (design for a) tool / workflow
 
