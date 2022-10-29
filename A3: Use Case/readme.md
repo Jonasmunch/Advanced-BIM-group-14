@@ -3,25 +3,25 @@
 
 
 ### 1) *Goal of the tool / workflow*
-To single out critical bearing elements for further structural analysis in the design face. 
+To single out critical bearing elements for further structural analysis in the project design face. 
 
 ### 2) *Model Use (Bim Uses)*
 
-The tool will apply a primary pupurse of **Analysis** and a secondary purpurse of **Forecast**. 
-The tool is applied in the **Design face** for detecting bearing elements from the **Substructure** facility elements. 
-This is done to perform simple **structural analysis** in order to extract critical bearing elements for further analysis and design. 
+The tool will apply a primary pupurse of ***Analysis*** and a secondary purpurse of ***Forecast***. 
+The tool is applied in the ***Design face*** for detecting bearing elements from the ***Substructure*** facility elements. 
+This is done to perform simple ***structural analysis*** in order to extract critical bearing elements for further analysis and design. 
 
-BIM Use:
-- Primary Purpurse:
-    - Analysis
-- Secondary Purpurse: 
-    - Forecast
-- Facility element: 
-    - Substructure
-- Facility face:
-    - Design face
-- Discipline: 
-    - Structural analysis
+BIM Use overview:\
+- **Primary Purpurse:**
+    - *Analysis*
+- **Secondary Purpurse:**
+    - *Forecast*
+- **Facility element:**
+    - *Substructure*
+- **Facility face:**
+    - *Design face*
+- **Discipline:**
+    - *Structural analysis*
 
 # 3B: Propose a (design for a) tool / workflow
 
