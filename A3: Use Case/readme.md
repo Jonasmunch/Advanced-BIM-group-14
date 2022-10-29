@@ -26,7 +26,7 @@ BIM Use overview:
 - **Discipline:**
     - Structural analysis
 - **Level of Development (LOD)**
-    - 200
+    - 200 to 300
 
 # 3B: Propose a (design for a) tool / workflow
 
@@ -47,8 +47,8 @@ See attached excel file.
  
 ### 6) *IFC*
 - Find in the IFC:\
-    To extract the relevant data for calculating if every structural element in the building comply with the given loads, the following IFC entities an
-    properties have to be found: 
+    To extract the relevant data for calculating if the structural elements comply with the given loading cases, the following IFC entities and
+    properties are extracted: 
 
     - Amount of structural elements 
 
@@ -56,7 +56,7 @@ See attached excel file.
 
     - Geometry: length, width and height, cross section dimensions. 
 
-    - Location: x, y and z location in the building, storey. 
+    - Relative position: x, y and z location in the building, storey and rotation. 
 
 - Find in an external sources i.e. BR18:\
     For the calculations of the structural elements to be useful, they have to comply with the norms in BR18 and Eurocode.  
@@ -71,11 +71,11 @@ See attached excel file.
 
  
 ### 7) *Business value*
-For architect businesses it could end up saving a lot of time. If the tool were implemented in every IFC file or similar, it would point out immediately to the designer where there are flaws. This could therefore also save some person-hours from the engineer, which is expensive for the building project.  
-It could be beneficial for businesses that are renovating a lot by using the tool on older buildings. (If the drawings are suited for it of course). The tool would in this scenario make it quicker to see if the relevant capacities is fulfilled when for instance removing a wall or similar.  
+For architect businesses it could end up saving a lot of time. If the tool were implemented in every IFC file or similar, it could point out immediately to the designer 'where', if structural flaws are present. This could save some process time for the structural engineers, initially saving money.  
+It could be beneficial for businesses that are renovating a lot by using the tool on older buildings (If the existing drawings are processed to IFC of course). The tool could make it easier/-faster to determain if the relevant capacities is fulfilled when for instance removing a wall or similar.  
 
 ### 8) *Societal value*
-The Societal value could for instance be the fact that the tool would essentially point out unacceptable dimensions for the carrying elements. This would give another level of security for the construction of new buildings.   
+The Societal value could for instance be the fact that the tool would essentially point out unacceptable dimensions (under/-oversized) for the carrying elements. This would give another level of security for the construction of new buildings.
 
 
 # 3E: Delivery
