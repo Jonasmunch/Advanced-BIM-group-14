@@ -1,15 +1,15 @@
 
 # 3A: Analyse use case
 
-1)
+## 1)
 To single out critical bearing elements for further structural analysis in the design face. 
 
-2) ##################
+### 2)
 Se PDF “BIM Use assignment” 
 
-#######################################################
-#### 3B: Propose a (design for a) tool / workflow #####
-#######################################################
+
+# 3B: Propose a (design for a) tool / workflow
+
 
 3) ##################
 <IMG src="IMG_folder/A3 BPMN Group 14.svg">
