@@ -41,21 +41,24 @@ If there isn't any the tool will stop. If there is some then it will extract the
 See attached excel file.
  
 ### 6) *IFC*
-Find in the IFC:
-To extract the relevant data for calculating if every structural element in the building comply with the given loads, the following IFC entities and properties have to be found: 
+- Find in the IFC:
+    To extract the relevant data for calculating if every structural element in the building comply with the given loads, the following IFC entities an
+    properties have to be found: 
 
-Amount of structural elements 
+    - Amount of structural elements 
 
-Material properties: the kind of material (concrete, steel, wood etc.), Young’s modulus, compressive and tensile strength. 
+    - Material properties: the kind of material (concrete, steel, wood etc.), Young’s modulus, compressive and tensile strength. 
 
-Geometry: length, width and height, cross section dimensions. 
+    - Geometry: length, width and height, cross section dimensions. 
 
-Location: x, y and z location in the building, storey. 
+    - Location: x, y and z location in the building, storey. 
 
-Find in an external sources i.e. BR18: 
-For the calculations of the structural elements to be useful, they have to comply with the norms in BR18 and Eurocode.  
-For BR18 an element must live up to the requirements of e.g. fire safety. Structural elements must be placed in a way that there can be enough emergency exits and they must be constructed in way which does not catch fire. 
-For Eurocode the right formulas must be used and the requirements for the relevant formulas must be fulfilled. E.g. the deformation of a steel beam must not exceed a specific value in order to allow people to be comfortable. 
+- Find in an external sources i.e. BR18: 
+    For the calculations of the structural elements to be useful, they have to comply with the norms in BR18 and Eurocode.  
+    For BR18 an element must live up to the requirements of e.g. fire safety. Structural elements must be placed in a way that there can be enough
+    emergency exits and they must be constructed in way which does not catch fire. 
+    For Eurocode the right formulas must be used and the requirements for the relevant formulas must be fulfilled. E.g. the deformation of a steel beam
+    must not exceed a specific value in order to allow people to be comfortable. 
 
  
 
