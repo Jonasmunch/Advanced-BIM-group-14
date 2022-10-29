@@ -6,7 +6,9 @@
 To single out critical bearing elements for further structural analysis in the design face. 
 
 ### 2) *Model Use (Bim Uses)*
-Se PDF “BIM Use assignment” 
+
+BIM Use: 
+
 
 
 # 3B: Propose a (design for a) tool / workflow
