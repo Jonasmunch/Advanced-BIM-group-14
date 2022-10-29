@@ -1,6 +1,6 @@
 
 # 3A: Analyse use case
-***
+
 
 ### 1) *Goal of the tool / workflow*
 To single out critical bearing elements for further structural analysis in the design face. 
@@ -10,7 +10,7 @@ Se PDF “BIM Use assignment”
 
 
 # 3B: Propose a (design for a) tool / workflow
-***
+
 
 ### 3)
 <IMG src="IMG_folder/A3 BPMN Group 14.svg">
@@ -21,7 +21,7 @@ If there isn't any the tool will stop. If there is some then it will extract the
 
 
 # 3C: Information Exchange 3
-***
+
 
 ### 5)
 See attached excel file.
@@ -46,7 +46,7 @@ For Eurocode the right formulas must be used and the requirements for the releva
  
 
 # 3D: Value what is the potential improvement offered by this tool?
-***
+
  
 ### 7)
 For architect businesses it could end up saving a lot of time. If the tool were implemented in every IFC file or similar, it would point out immediately to the designer where there are flaws. This could therefore also save some person-hours from the engineer, which is expensive for the building project.  
@@ -57,7 +57,7 @@ The Societal value could for instance be the fact that the tool would essentiall
 
 
 # 3E: Delivery
-***
+
 
 ### 9)
 The tool loads in a IFC model and a load case put on the building. Then it will analyze the structural elements of the model and see if it lives up to the standards for a given load case. Then it should make a structural documentation for the building. But also make it easy for the engineers to extract important information about the structural elements, so the tools calculations easily could be checked.  
