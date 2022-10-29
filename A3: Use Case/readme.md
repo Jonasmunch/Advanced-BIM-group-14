@@ -1,8 +1,7 @@
-####################################################### \
-#### 3A: Analyse use case                          #### \
-####################################################### \
 
-1) ##################
+# 3A: Analyse use case
+
+1)
 To single out critical bearing elements for further structural analysis in the design face. 
 
 2) ##################
