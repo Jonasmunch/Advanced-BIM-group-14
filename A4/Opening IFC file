@@ -1,0 +1,10 @@
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
+tk.Tk().withdraw() # part of the import if you are not using other tkinter functions
+
+Ifc_path = askopenfilename() #The path the the Ifc file is saved at Ifc_path
+
+import ifcopenshell
+ifc_file = ifcopenshell.open(Ifc_path)  #The selected Ifc file gets imported.
+
+
