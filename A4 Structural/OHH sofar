@@ -1,0 +1,143 @@
+''' written by Tim McGinley 2022 '''
+''' Editted by Joakim Mørk, Valdemar Rasmussen, Jonas Munch, Oscar Hansen 2022 '''
+
+import math
+
+import tkinter as tk
+from tkinter.filedialog import askopenfilename
+tk.Tk().withdraw() # part of the import if you are not using other tkinter functions
+
+Ifc_path = askopenfilename() #The path the the Ifc file is saved at Ifc_path
+
+import ifcopenshell
+file = ifcopenshell.open(Ifc_path)  #The selected Ifc file gets imported.
+
+
+#########################################################
+##### Lavet af OHH <3 Walls #####
+#########################################################
+Walls = file.by_type('IfcWall') # IfcWallStandardCase indgår i IfcWall 
+
+wall_num = []
+num = 0
+
+wall_Height =[]
+wall_Lenght = []
+wall_Width =[]
+wall_Volume =[]
+wall_Type = []
+
+
+for wall in Walls:
+#
+    num = num+1
+    w_num = "wall"+str(num)
+    wall_num.append(w_num)
+
+    #Extracting Height of walls 
+    for definition in wall.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Constraints":
+                for property in property_set.HasProperties:
+                    if property.Name == "Unconnected Height":
+                        UH_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Height.append(UH_w)
+                        
+    #Extracting length of wall
+    for definition in wall.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Length":
+                        length_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Lenght.append(length_w)
+
+    #Extracting thinkness of wall
+    for definition in wall.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Type_Construction":
+                for property in property_set.HasProperties:
+                    if property.Name == "Width":
+                        thickness_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Width.append(thickness_w)
+
+    #Extracting volume of wall
+    for definition in wall.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Volume":
+                        volume_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Volume.append(volume_w)
+
+    #Extracting wall type (Virker)
+    for relAssociatesMaterial in wall.HasAssociations:
+        material_wall = relAssociatesMaterial.RelatingMaterial.ForLayerSet.LayerSetName
+
+        material_w = material_wall
+        material_w = float('nan')
+        wall_type_ch = math.isnan(volume_w)
+
+        if wall_type_ch == True :
+            material_w_ch = material_wall
+        else:
+            material_w_ch = 'Error'
+
+        wall_Type.append(material_w_ch) 
+
+# DATA check (Mangler at tilrettes ny check metode)
+# Check if the collected data is as it should be
+wall_check_Collected = len(wall_Type)+len(wall_Lenght)+len(wall_Width)+len(wall_Height)+len(wall_Volume)
+wall_check_ShouldBe = len(Walls)*5
+
+# the color of the sheet is choosen
+if wall_check_ShouldBe == wall_check_Collected :    # see if the collected data lives of to the standarts 
+    wall_color = 'green'
+else:
+    wall_color = 'red'
+ 
+
+###############################################
+#### Name output file                      ####
+###############################################
+import tkinter as tk
+from tkinter import simpledialog
+
+ROOT = tk.Tk()
+
+ROOT.withdraw()
+
+Output_FileN = simpledialog.askstring(title="Test",                   # make the nameing dialog
+                                  prompt="Filename of outputfile")  
+
+Output_Filename = str(Output_FileN)+'.xlsx'
+
+###############################################
+#### Exporting the excel                   ####
+###############################################
+import pandas as pd
+import xlsxwriter
+
+# Wall data
+wall_Data = {'Wall Type' : wall_Type, 'Lenght' : wall_Lenght, 'Width' : wall_Width, 'Height' : wall_Height, 'Volume' : wall_Volume }
+df_walls = pd.DataFrame(wall_Data)
+
+wall_Data2 = {'Material2' : wall_Type, 'Lenght2' : wall_Lenght, 'Width' : wall_Width, 'Height' : wall_Height, 'Volume' : wall_Volume } #EKS
+df_walls2 = pd.DataFrame(wall_Data2)                                                                                                       #EKS
+
+# Creating Excel file consisting the Data Frames
+
+
+with pd.ExcelWriter(Output_Filename) as writer:
+    df_walls.to_excel(writer, sheet_name='Walls', index=True, header=True)
+    df_walls2.to_excel(writer, sheet_name='Walls2', index=True, header=True) #EKS
+
+    wallsheet = writer.sheets['Walls']      # selecting a sheet
+    wallsheet.set_tab_color(wall_color)     # Alplying a color to the selected sheet
+
+    worksheet1 = writer.sheets['Walls2']                #EKS
+    worksheet1.set_tab_color('blue')                    #EKS
