@@ -79,13 +79,13 @@ for wall in Walls:
         material_wall = relAssociatesMaterial.RelatingMaterial.ForLayerSet.LayerSetName
 
         material_w = material_wall
-        material_w = float('nan')
-        wall_type_ch = math.isnan(volume_w)
+        material_w = float('nan')                   # laver NaN af data der ikke er et tal
+        wall_type_ch = math.isnan(volume_w)         # tjekker om den fundet værdi er et NaN
 
-        if wall_type_ch == True :
+        if wall_type_ch == True :                   # Hvis findet værdi er et NaN SÅ:
             material_w_ch = material_wall
-        else:
-            material_w_ch = 'Error'
+        else:                                       # Hvis findet værdi ikke er et NaN SÅ:
+            material_w_ch = 'Error'                 
 
         wall_Type.append(material_w_ch) 
 
