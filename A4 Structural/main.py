@@ -20,6 +20,8 @@ Ifc_path = askopenfilename() #The path the the Ifc file is saved at Ifc_path
 import ifcopenshell
 file = ifcopenshell.open(Ifc_path)  #The selected Ifc file gets imported.
 
+import xlsxwriter
+import numpy
 
 ###############################################
 #### Element list Extraction               ####
