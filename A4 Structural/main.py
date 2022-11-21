@@ -30,8 +30,7 @@ import numpy
 # Creating element vectors for later property extraction.
 beams = file.by_type('IfcBeam')
 columns = file.by_type('IfcColumn') 
-walls = file.by_type('IfcWallStandardCase') #Often outher walls
-walls.append(file.by_type('IfcWall')) # Often inner walls
+Walls = file.by_type('IfcWall')
 slabs = file.by_type('IfcSlab')
 
 # Creating empty vectors, for easy element numbering.
@@ -61,9 +60,66 @@ slab_num = []
 
 
 ######## WALLS:
-# NOTE: 
-  # Expected information vectors named with associated entity:
-    # 
+# Creating empty property vectors:
+wall_num = [] ; wall_El_name = [] ; wall_Height =[] ; wall_Lenght = [] ; wall_Width =[] ; wall_Volume =[] ; wall_Type = []
+
+num = 0
+
+
+for wall in Walls:
+#
+    num = num+1
+    w_num = "wall"+str(num)
+    wall_num.append(w_num)
+    wall_El_name.append(wall.Name)
+# 
+    for definition in wall.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            #
+            #Extracting Height of walls
+            if property_set.Name == "PSet_Revit_Constraints":
+                for property in property_set.HasProperties:
+                    if property.Name == "Unconnected Height":
+                        UH_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Height.append(UH_w)
+            #
+            #Extracting length of wall
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Length":
+                        length_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Lenght.append(length_w)
+            #
+            #Extracting thinkness of wall
+            if property_set.Name == "PSet_Revit_Type_Construction":
+                for property in property_set.HasProperties:
+                    if property.Name == "Width":
+                        thickness_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Width.append(thickness_w)
+            #
+            #Extracting volume of wall
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Volume":
+                        volume_w = (round(property.NominalValue.wrappedValue, 2))
+                        wall_Volume.append(volume_w)
+
+
+    #Extracting wall type (Virker)
+    for relAssociatesMaterial in wall.HasAssociations:
+        material_wall = relAssociatesMaterial.RelatingMaterial.ForLayerSet.LayerSetName
+
+        material_w = material_wall
+        material_w = float('nan')                   # laver NaN af data der ikke er et tal
+        wall_type_ch = math.isnan(volume_w)         # tjekker om den fundet værdi er et NaN
+
+        if wall_type_ch == True :                   # Hvis findet værdi er et NaN SÅ:
+            material_w_ch = material_wall
+        else:                                       # Hvis findet værdi ikke er et NaN SÅ:
+            material_w_ch = 'Error'                 
+
+        wall_Type.append(material_w_ch)
 
 
 
@@ -71,7 +127,7 @@ slab_num = []
 
 ######## SLABS:
 # Creating empty property vectors:
-slabs_structural = [] ; slab_num = [] ; slab_El_name = [] ; slab_Perimeter = [] ; slab_Material = []
+slabs_structural = [] ; slab_num = [] ; slab_El_name = [] ; slab_Perimeter = [] ; slab_Type = []
 slab_Area = [] ; slab_Volume = [] ; slab_Thickness = [] ; slab_Level = []
 slab_xval = [] ; slab_yval = [] ; slab_zval = [] ; xval = [] ; yval = [] ; zval = []
 num = 0
@@ -130,7 +186,7 @@ for slab in slabs_structural:
         call_a = "ERROR"
         material = RAM.RelatingMaterial.ForLayerSet.LayerSetName
         if material == "":
-            slab_Material.append(call_a)
+            slab_Type.append(call_a)
         else:
             slab_Material.append(material)
     #
@@ -154,7 +210,7 @@ for slab in slabs_structural:
         slab_zval.append(zval)
 
 
-dataframe_slabs = [slab_num, slab_El_name, slab_Level, slab_Material, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
+dataframe_slabs = [slab_num, slab_El_name, slab_Level, slab_Type, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
 slabs_dataframe = numpy.transpose(dataframe_slabs)
 
 
@@ -202,7 +258,7 @@ worksheet2.add_table(0,0, rows, columns, {
     'data': slabs_dataframe,
     'style': 'Table Style Light 11',
     'name': "Slabs_data",
-    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Type'}, 
     {'header': 'Thickness [m]'}, {'header': 'Area [m^2]'}, {'header': 'Perimeter [m]'}, {'header': 'Volume [m^3]'}, {'header': 'Placement_x-val'},
     {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
 })
