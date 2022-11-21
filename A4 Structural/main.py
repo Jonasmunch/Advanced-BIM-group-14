@@ -479,8 +479,9 @@ worksheet4.add_table(0,0,rows,10, {
     'style': 'Table Style Light 11',
     'name': "Beams_data",
     'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
-    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
-    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+    {'header': 'Length'}, {'header': 'Width of flange, bf'}, {'header': 'Height of web, d'}, {'header': 'k'}, {'header': 'kr'},
+    {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
+    {'header': 'Placement_z-val'},]
 })
 
 # COLUMNS:
@@ -489,8 +490,9 @@ worksheet5.add_table(0,0,rows,10, {
     'style': 'Table Style Light 11',
     'name': "Columns_data",
     'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
-    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
-    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+    {'header': 'Length'}, {'header': 'Width, b'}, {'header': 'Height, h'}, {'header': 'k'}, {'header': 'kr'},
+    {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
+    {'header': 'Placement_z-val'},]
 })
 
 ######
