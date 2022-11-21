@@ -3,7 +3,7 @@
 ###############################################
 
 # To run code following 3 packages must be installed to pip (pip install [package]): 
-# (1) pandas   (2) xlwt   (3) openpyxl
+# (1) ExcelWriter  (2) numpy
 
 
 
