@@ -48,14 +48,214 @@ slab_num = []
 # NOTE: 
   # Expected information vectors named with associated entity:
     # beam_El_name,  beam_Material,  beam_Lenght,  beam_placement,  beam_crossection
+num = 0
 
+beam_El_name = []
+beam_Material = []
+beam_Length = []
+beam_placement_x = []
+beam_placement_y = []
+beam_placement_z = []
+beam_level = []
+beam_crossection_bf = []
+beam_crossection_d = []
+beam_crossection_k = []
+beam_crossection_kr = []
+beam_crossection_tf = []
+beam_crossection_tw = []
+
+for beam in beams:
+#
+    num = num+1
+    b_num = "beam"+str(num)
+    beam_num.append(b_num)
+
+    #Extracting beam_El_name
+    beam_El_name.append(beam.Name)
+
+    #Extracting Reference level
+    for definition in beam.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Constraints":
+                call_a = "ERROR"
+                for property in property_set.HasProperties:
+                    if property.Name == "Reference Level":
+                        call_a = property.NominalValue.wrappedValue
+                  # Assigning result of logical test's:
+                beam_level.append(call_a)
+
+    #Extracting Length
+    for definition in beam.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Length":
+                        call_a = round(property.NominalValue.wrappedValue, 2)
+                  # Assigning result of logical test's:
+                beam_Length.append(call_a)
+
+    #Extracting Material
+    for definition in beam.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Materials and Finishes":
+                for property in property_set.HasProperties:
+                    if property.Name == "Beam Material":
+                        call_a = property.NominalValue.wrappedValue
+                  # Assigning result of logical test's:
+                beam_Material.append(call_a)
+
+    #Extracting Crossection
+    for definition in beam.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Type_Dimensions":
+                call_a = "ERROR" ; call_b = "ERROR" ; call_c = "ERROR" ; call_d = "ERROR" ; call_e = "ERROR" ; call_a = "ERROR"
+                for property in property_set.HasProperties:
+                    # bf
+                    if property.Name == "bf":
+                        call_a = round(property.NominalValue.wrappedValue, 2)
+                    # d
+                    if property.Name == "d":
+                        call_b = round(property.NominalValue.wrappedValue, 2)
+                    # k
+                    if property.Name == "k":
+                        call_c = round(property.NominalValue.wrappedValue, 2)
+                    # kr
+                    if property.Name == "kr":
+                        call_d = round(property.NominalValue.wrappedValue, 2)
+                    # tf
+                    if property.Name == "tf":
+                        call_e = round(property.NominalValue.wrappedValue, 2)
+                    # tw
+                    if property.Name == "tw":
+                        call_f = round(property.NominalValue.wrappedValue, 2)
+                # Assigning result of logical test's:
+                beam_crossection_bf.append(call_a)
+                beam_crossection_d.append(call_b)
+                beam_crossection_k.append(call_c)
+                beam_crossection_kr.append(call_d)
+                beam_crossection_tf.append(call_e)
+                beam_crossection_tw.append(call_f)
+
+    #Extracting Object coordinates
+    xval = round(beam.ObjectPlacement.RelativePlacement.Location.Coordinates[0],3)
+    beam_placement_x.append(xval)
+    yval = round(beam.ObjectPlacement.RelativePlacement.Location.Coordinates[1],3)
+    beam_placement_y.append(yval)
+    zval = round(beam.ObjectPlacement.RelativePlacement.Location.Coordinates[2],3)
+    beam_placement_z.append(zval)
+
+dataframe_beams = [beam_num, beam_El_name, beam_level, beam_Material, beam_Length, beam_crossection_bf, beam_crossection_d, beam_crossection_k, beam_crossection_kr, beam_crossection_tf, beam_crossection_tw, beam_placement_x, beam_placement_y, beam_placement_z]
+beams_dataframe = numpy.transpose(dataframe_beams)
 
 
 ######## COLUMNS:
 # NOTE: 
   # Expected information vectors named with associated entity:
     # column_El_name,  column_Material,  column_Lenght,  column_placement,  column_crossection
+num = 0
 
+column_El_name = []
+column_Material = []
+column_Length = []
+column_placement_x = []
+column_placement_y = []
+column_placement_z = []
+column_level = []
+column_crossection_b = []
+column_crossection_h = []
+column_crossection_k = []
+column_crossection_kr = []
+column_crossection_tf = []
+column_crossection_tw = []
+
+for column in columns:
+#
+    num = num+1
+    c_num = "column"+str(num)
+    column_num.append(c_num)
+
+    #Extracting Reference level
+    for definition in column.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Constraints":
+                call_a = "ERROR"
+                for property in property_set.HasProperties:
+                    if property.Name == "Reference Level":
+                        call_a = property.NominalValue.wrappedValue
+                  # Assigning result of logical test's:
+                column_level.append(call_a)
+
+    #Extracting Length
+    for definition in column.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Dimensions":
+                for property in property_set.HasProperties:
+                    if property.Name == "Length":
+                        call_a = round(property.NominalValue.wrappedValue, 2)
+                  # Assigning result of logical test's:
+                column_Length.append(call_a)
+
+    #Extracting Material
+    for definition in column.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Materials and Finishes":
+                for property in property_set.HasProperties:
+                    if property.Name == "Beam Material":
+                        call_a = property.NominalValue.wrappedValue
+                  # Assigning result of logical test's:
+                column_Material.append(call_a)
+
+    #Extracting Crossection
+    for definition in column.IsDefinedBy:
+        if definition.is_a('IfcRelDefinesByProperties'):
+            property_set = definition.RelatingPropertyDefinition
+            if property_set.Name == "PSet_Revit_Type_Dimensions":
+                call_a = "ERROR" ; call_b = "ERROR" ; call_c = "ERROR" ; call_d = "ERROR" ; call_e = "ERROR" ; call_a = "ERROR"
+                for property in property_set.HasProperties:
+                    # b
+                    if property.Name == "b":
+                        call_a = round(property.NominalValue.wrappedValue, 2)
+                    # h
+                    if property.Name == "h":
+                        call_b = round(property.NominalValue.wrappedValue, 2)
+                    # k
+                    if property.Name == "k":
+                        call_c = round(property.NominalValue.wrappedValue, 2)
+                    # kr
+                    if property.Name == "kr":
+                        call_d = round(property.NominalValue.wrappedValue, 2)
+                    # tf
+                    if property.Name == "tf":
+                        call_e = round(property.NominalValue.wrappedValue, 2)
+                    # tw
+                    if property.Name == "tw":
+                        call_f = round(property.NominalValue.wrappedValue, 2)
+                # Assigning result of logical test's:
+                column_crossection_b.append(call_a)
+                column_crossection_h.append(call_b)
+                column_crossection_k.append(call_c)
+                column_crossection_kr.append(call_d)
+                column_crossection_tf.append(call_e)
+                column_crossection_tw.append(call_f)
+
+
+    #Extracting Object coordinates
+    xval = round(column.ObjectPlacement.RelativePlacement.Location.Coordinates[0],3)
+    column_placement_x.append(xval)
+    yval = round(column.ObjectPlacement.RelativePlacement.Location.Coordinates[1],3)
+    column_placement_y.append(yval)
+    zval = round(column.ObjectPlacement.RelativePlacement.Location.Coordinates[2],3)
+    column_placement_z.append(zval)
+
+dataframe_columns = [column_num, column_El_name, column_level, column_Material, column_Length, column_crossection_b, column_crossection_h, column_crossection_k, column_crossection_kr, column_crossection_tf, column_crossection_tw, column_placement_x, column_placement_y, column_placement_z]
+columns_dataframe = numpy.transpose(dataframe_columns)
 
 
 
