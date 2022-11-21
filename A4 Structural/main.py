@@ -152,14 +152,97 @@ for slab in slabs_structural:
         slab_zval.append(zval)
 
 
-dataframe = [slab_num, slab_El_name, slab_Level, slab_Material, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
-slabs_dataframe = numpy.transpose(dataframe)
+dataframe_slabs = [slab_num, slab_El_name, slab_Level, slab_Material, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
+slabs_dataframe = numpy.transpose(dataframe_slabs)
 
 
 ###############################################
 #### Creating Excel document               ####
 ###############################################
 
+############
+# Naming output file
 
+#import tkinter as tk
+from tkinter import simpledialog
+
+ROOT = tk.Tk()
+ROOT.withdraw()
+# Opening nameing dialog window:
+Output_FileN = simpledialog.askstring(title="Test", prompt="Filename of outputfile")   
+# Saving custom name til constant:
+Output_Filename = str(Output_FileN)+'.xlsx'
+
+
+############
+#Creating workbook and worksheets:
+workbook = xlsxwriter.Workbook('Slab_info.xlsx')
+worksheet1 = workbook.add_worksheet('Info')
+worksheet2 = workbook.add_worksheet('Slabs')
+worksheet3 = workbook.add_worksheet('Walls')
+worksheet4 = workbook.add_worksheet('Beams')
+worksheet5 = workbook.add_worksheet('Columns')
+
+
+######
+# Formatting:
+red_format = workbook.add_format({'bg_color': '#FFC7CE', 'font_color': '#9C0006'})
+
+
+######
+# Creating tables within the sheets:
+
+# SLABS:
+rows = len(slabs_structural)
+columns = len(dataframe_slabs)-1
+
+worksheet2.add_table(0,0, rows, columns, { 
+    'data': slabs_dataframe,
+    'style': 'Table Style Light 11',
+    'name': "Slabs_data",
+    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+    {'header': 'Thickness [m]'}, {'header': 'Area [m^2]'}, {'header': 'Perimeter [m]'}, {'header': 'Volume [m^3]'}, {'header': 'Placement_x-val'},
+    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+})
+
+# WALLS:
+worksheet3.add_table(0,0,rows,10, { 
+    'data': walls_dataframe,
+    'style': 'Table Style Light 11',
+    'name': "Walls_data",
+    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
+    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+})
+
+# BEAMS:
+worksheet4.add_table(0,0,rows,10, { 
+    'data': beams_dataframe,
+    'style': 'Table Style Light 11',
+    'name': "Beams_data",
+    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
+    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+})
+
+# COLUMNS:
+worksheet5.add_table(0,0,rows,10, { 
+    'data': columns_dataframe,
+    'style': 'Table Style Light 11',
+    'name': "Columns_data",
+    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
+    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+})
+
+######
+# Conditional formatting: 
+worksheet2.conditional_format(slabs_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
+worksheet3.conditional_format(walls_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
+worksheet4.conditional_format(beams_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
+worksheet5.conditional_format(columns_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
+
+
+workbook.close()
 
 
