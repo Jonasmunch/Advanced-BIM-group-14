@@ -153,7 +153,7 @@ for slab in slabs_structural:
 
 
 dataframe = [slab_num, slab_El_name, slab_Level, slab_Material, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
-slab_dataframe = numpy.transpose(dataframe)
+slabs_dataframe = numpy.transpose(dataframe)
 
 
 ###############################################
