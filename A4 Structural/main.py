@@ -451,6 +451,18 @@ slabs_dataframe = numpy.transpose(dataframe_slabs)
 
 
 
+###############################################
+#### Naming output file                    ####
+###############################################
+
+from tkinter import simpledialog
+
+ROOT = tk.Tk()
+ROOT.withdraw()
+# Opening the nameing dialog
+Output_FileN = simpledialog.askstring(title="Test", prompt="Filename of outputfile")  
+Output_Filename = str(Output_FileN)+'.xlsx'
+
 
 ###############################################
 #### Creating Excel document               ####
@@ -459,7 +471,7 @@ slabs_dataframe = numpy.transpose(dataframe_slabs)
 
 ###########
 # Creating workbook and worksheets:
-workbook = xlsxwriter.Workbook('Slab_info.xlsx')
+workbook = xlsxwriter.Workbook(Output_Filename)
 worksheet1 = workbook.add_worksheet('Info')
 worksheet2 = workbook.add_worksheet('Slabs')
 worksheet3 = workbook.add_worksheet('Walls')
