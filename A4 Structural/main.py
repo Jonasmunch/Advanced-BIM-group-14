@@ -44,7 +44,10 @@ slab_num = []
 #### Entity Extraction                     ####
 ###############################################
 
-######## BEAMS: ########
+#######################
+####### BEAMS: ########
+#######################
+
 num = 0
 
 beam_num = []
@@ -98,7 +101,6 @@ for beam in beams:
                         type_b = property.NominalValue.wrappedValue
 
             #Extracting Crossection
-            bf = [] ; d = [] ; k = [] ; kr = [] ; tf = [] ; tw = [] 
             if property_set.Name == "PSet_Revit_Type_Dimensions":
                 for property in property_set.HasProperties:
                     # bf
@@ -147,7 +149,11 @@ dataframe_beams = [beam_num, beam_El_name, beam_level, beam_Type, beam_Length, b
 beams_dataframe = numpy.transpose(dataframe_beams)
 
 
+
+##########################
 ######## COLUMNS: ########
+##########################
+
 num = 0
 
 column_num = []
@@ -250,8 +256,10 @@ dataframe_columns = [column_num, column_El_name, column_level, column_Type, colu
 columns_dataframe = numpy.transpose(dataframe_columns)
 
 
-
+########################
 ######## WALLS: ########
+########################
+
 # Creating empty property vectors:
 wall_num = [] 
 wall_El_name = [] 
@@ -346,8 +354,10 @@ walls_dataframe = numpy.transpose(dataframe_walls)
 
 
 
-
+########################
 ######## SLABS: ########
+########################
+
 slabs_structural = [] 
 slab_num = [] 
 slab_El_name = [] 
@@ -440,26 +450,15 @@ dataframe_slabs = [slab_num, slab_El_name, slab_Level, slab_Type, slab_Thickness
 slabs_dataframe = numpy.transpose(dataframe_slabs)
 
 
+
+
 ###############################################
 #### Creating Excel document               ####
 ###############################################
 
-############
-# Naming output file
 
-#import tkinter as tk
-from tkinter import simpledialog
-
-ROOT = tk.Tk()
-ROOT.withdraw()
-# Opening nameing dialog window:
-Output_FileN = simpledialog.askstring(title="Test", prompt="Filename of outputfile")   
-# Saving custom name til constant:
-Output_Filename = str(Output_FileN)+'.xlsx'
-
-
-############
-#Creating workbook and worksheets:
+###########
+# Creating workbook and worksheets:
 workbook = xlsxwriter.Workbook('Slab_info.xlsx')
 worksheet1 = workbook.add_worksheet('Info')
 worksheet2 = workbook.add_worksheet('Slabs')
@@ -471,62 +470,133 @@ worksheet5 = workbook.add_worksheet('Columns')
 ######
 # Formatting:
 red_format = workbook.add_format({'bg_color': '#FFC7CE', 'font_color': '#9C0006'})
+green_format = workbook.add_format({'bg_color':   '#C6EFCE', 'font_color': '#006100'})
 
 
 ######
 # Creating tables within the sheets:
 
 # SLABS:
-rows = len(slabs_structural)
-columns = len(dataframe_slabs)-1
+slabs_rows = len(slabs_structural)
+slabs_columns = len(dataframe_slabs)-1
 
-worksheet2.add_table(0,0, rows, columns, { 
+if slabs_rows <= 0:
+    slabs_rows = 1
+    slabs_columns = 13
+    worksheet2.add_table(0,0, 1, 10, { 
+        'data': [],
+        'style': 'Table Style Light 11',
+        'name': "Slabs_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Type'}, 
+        {'header': 'Thickness [m]'}, {'header': 'Area [m^2]'}, {'header': 'Perimeter [m]'}, {'header': 'Volume [m^3]'}, {'header': 'Placement_x-val'},
+        {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+    })  
+else:
+    worksheet2.add_table(0,0, slabs_rows, slabs_columns, { 
     'data': slabs_dataframe,
     'style': 'Table Style Light 11',
     'name': "Slabs_data",
     'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Type'}, 
     {'header': 'Thickness [m]'}, {'header': 'Area [m^2]'}, {'header': 'Perimeter [m]'}, {'header': 'Volume [m^3]'}, {'header': 'Placement_x-val'},
     {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
-})
+}) 
 
 # WALLS:
-worksheet3.add_table(0,0,rows,10, { 
-    'data': walls_dataframe,
-    'style': 'Table Style Light 11',
-    'name': "Walls_data",
-    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
-    {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
-    {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
-})
+walls_rows = len(Walls)
+walls_columns = len(dataframe_walls)-1
+
+if walls_rows <= 0:
+    walls_rows = 1
+    walls_columns = 13
+    worksheet3.add_table(0,0,1,10, { 
+        'data': [],
+        'style': 'Table Style Light 11',
+        'name': "Walls_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+        {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
+        {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+    })
+else:
+    worksheet3.add_table(0,0,walls_rows,walls_columns, { 
+        'data': walls_dataframe,
+        'style': 'Table Style Light 11',
+        'name': "Walls_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+        {'header': 'Thickness'}, {'header': 'Area'}, {'header': 'Perimeter'}, {'header': 'Volume'}, {'header': 'Placement_x-val'},
+        {'header': 'Placement_y-val'}, {'header': 'Placement_z-val'},]
+    })
 
 # BEAMS:
-worksheet4.add_table(0,0,rows,10, { 
-    'data': beams_dataframe,
-    'style': 'Table Style Light 11',
-    'name': "Beams_data",
-    'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
-    {'header': 'Length'}, {'header': 'Width of flange, bf'}, {'header': 'Height of web, d'}, {'header': 'k'}, {'header': 'kr'},
-    {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
-    {'header': 'Placement_z-val'},]
-})
+beams_rows = len(beams)
+beams_columns = len(dataframe_beams)-1
+
+if beams_rows <= 0:
+    beams_rows = 1
+    beams_columns = 13
+    worksheet4.add_table(0,0,1,13, { 
+        'data': [],
+        'style': 'Table Style Light 11',
+        'name': "Beams_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+        {'header': 'Length'}, {'header': 'Width of flange, bf'}, {'header': 'Height of web, d'}, {'header': 'k'}, {'header': 'kr'},
+        {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
+        {'header': 'Placement_z-val'},]
+    })
+else:
+    worksheet4.add_table(0,0,beams_rows,beams_columns, { 
+        'data': beams_dataframe,
+        'style': 'Table Style Light 11',
+        'name': "Beams_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+        {'header': 'Length'}, {'header': 'Width of flange, bf'}, {'header': 'Height of web, d'}, {'header': 'k'}, {'header': 'kr'},
+        {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
+        {'header': 'Placement_z-val'},]
+    })
 
 # COLUMNS:
-worksheet5.add_table(0,0,rows,10, { 
-    'data': columns_dataframe,
+columns_rows = len(columns)
+columns_columns = len(dataframe_columns)-1
+
+if columns_rows <= 0:
+    columns_rows = 1
+    columns_columns = 13
+    worksheet5.add_table(0,0,columns_rows,columns_columns, { 
+    'data': [["ERROR", "ERROR"]],
     'style': 'Table Style Light 11',
     'name': "Columns_data",
     'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
     {'header': 'Length'}, {'header': 'Width, b'}, {'header': 'Height, h'}, {'header': 'k'}, {'header': 'kr'},
     {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
     {'header': 'Placement_z-val'},]
-})
+    })
+else:
+    worksheet5.add_table(0,0,columns_rows,columns_columns, { 
+        'data': columns_dataframe,
+        'style': 'Table Style Light 11',
+        'name': "Columns_data",
+        'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
+        {'header': 'Length'}, {'header': 'Width, b'}, {'header': 'Height, h'}, {'header': 'k'}, {'header': 'kr'},
+        {'header': 'Thickness of flange, tf'}, {'header': 'Thickness of web, tw'}, {'header': 'Placement_x-val'}, {'header': 'Placement_y-val'}, 
+        {'header': 'Placement_z-val'},]
+    })
 
-######
+    
+#####
 # Conditional formatting: 
-worksheet2.conditional_format(slabs_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
-worksheet3.conditional_format(walls_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
-worksheet4.conditional_format(beams_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
-worksheet5.conditional_format(columns_dataframe, {'type': 'cell', 'criteria': 'equal to', 'value': 'ERROR', 'format': 'red_format'})
+
+worksheet2.conditional_format(1,0,slabs_rows,slabs_columns,  {'type': 'text', 'criteria': 'containing', 'value': 'ERROR', 'format': red_format})
+worksheet2.conditional_format(1,0,slabs_rows,slabs_columns, {'type': 'text', 'criteria': 'not containing', 'value': 'ERROR', 'format': green_format})
+
+worksheet3.conditional_format(1,0,walls_rows,walls_columns,  {'type': 'text', 'criteria': 'containing', 'value': 'ERROR', 'format': red_format})
+worksheet3.conditional_format(1,0,walls_rows,walls_columns, {'type': 'text', 'criteria': 'not containing', 'value': 'ERROR', 'format': green_format})
+
+worksheet4.conditional_format(1,0,beams_rows,beams_columns,  {'type': 'text', 'criteria': 'containing', 'value': 'ERROR', 'format': red_format})
+worksheet4.conditional_format(1,0,beams_rows,beams_columns, {'type': 'text', 'criteria': 'not containing', 'value': 'ERROR', 'format': green_format})
+
+worksheet5.conditional_format(1,0,columns_rows,columns_columns,  {'type': 'text', 'criteria': 'containing', 'value': 'ERROR', 'format': red_format})
+worksheet5.conditional_format(1,0,columns_rows,columns_columns, {'type': 'text', 'criteria': 'not containing', 'value': 'ERROR', 'format': green_format})
+
+
 
 
 workbook.close()
