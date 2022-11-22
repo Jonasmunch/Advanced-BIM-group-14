@@ -261,18 +261,34 @@ columns_dataframe = numpy.transpose(dataframe_columns)
 
 ######## WALLS:
 # Creating empty property vectors:
-wall_num = [] ; wall_El_name = [] ; wall_Height =[] ; wall_Lenght = [] ; wall_Width =[] ; wall_Volume =[] ; wall_Type = []
+wall_num = [] 
+wall_El_name = [] 
+wall_Level = [] 
+wall_Height =[] 
+wall_Lenght = [] 
+wall_Width =[] 
+wall_Volume =[] 
+wall_Type = [] 
+wall_xval = [] 
+wall_yval = [] 
+wall_zval = []
 
 num = 0
 
-
 for wall in Walls:
 #
+    # Wall numbering:
     num = num+1
     w_num = "wall"+str(num)
     wall_num.append(w_num)
-    wall_El_name.append(wall.Name)
+
+    # Element name:
+    name_w = wall.Name
+    wall_El_name.append("ERROR")  if  name_w == ""  else  wall_El_name.append(name_w)
 # 
+#
+    height_w =[] ; length_w = [] ; thickness_w = [] ; volume_w = [] ; level_w = []
+
     for definition in wall.IsDefinedBy:
         if definition.is_a('IfcRelDefinesByProperties'):
             property_set = definition.RelatingPropertyDefinition
@@ -281,55 +297,77 @@ for wall in Walls:
             if property_set.Name == "PSet_Revit_Constraints":
                 for property in property_set.HasProperties:
                     if property.Name == "Unconnected Height":
-                        UH_w = (round(property.NominalValue.wrappedValue, 2))
-                        wall_Height.append(UH_w)
+                        height_w = (round(property.NominalValue.wrappedValue, 2))
             #
             #Extracting length of wall
             if property_set.Name == "PSet_Revit_Dimensions":
                 for property in property_set.HasProperties:
                     if property.Name == "Length":
                         length_w = (round(property.NominalValue.wrappedValue, 2))
-                        wall_Lenght.append(length_w)
             #
             #Extracting thinkness of wall
             if property_set.Name == "PSet_Revit_Type_Construction":
                 for property in property_set.HasProperties:
                     if property.Name == "Width":
                         thickness_w = (round(property.NominalValue.wrappedValue, 2))
-                        wall_Width.append(thickness_w)
             #
             #Extracting volume of wall
             if property_set.Name == "PSet_Revit_Dimensions":
                 for property in property_set.HasProperties:
                     if property.Name == "Volume":
                         volume_w = (round(property.NominalValue.wrappedValue, 2))
-                        wall_Volume.append(volume_w)
+            #
+            #Extracting reference level of wall
+            if property_set.Name == "PSet_Revit_Constraints":
+                for property in property_set.HasProperties:
+                    if property.Name == "Base Constraint":
+                        level_w = property.NominalValue.wrappedValue
+    #
+        # Evaluating for missing properties:
+    wall_Height.append("ERROR")  if height_w == ""   else  wall_Height.append(height_w)
+    wall_Lenght.append("ERROR")  if length_w == ""   else  wall_Lenght.append(length_w)
+    wall_Width.append("ERROR")   if thickness_w == ""   else wall_Width.append(thickness_w)
+    wall_Volume.append("ERROR")  if volume_w == ""   else  wall_Volume.append(volume_w)
+    wall_Level.append("ERROR")   if level_w == ""    else  wall_Level.append(level_w)
+
+    #Extracting wall type
+    for RAM in wall.HasAssociations:
+        type_w = RAM.RelatingMaterial.ForLayerSet.LayerSetName
+    # Evaluating for missing properties:
+    wall_Type.append("ERROR")  if type_w == ""  else wall_Type.append(type_w)
+
+    # Extracting coordinates
+    xval = [] ; yval = [] ; zval = []
+    xval = round(wall.ObjectPlacement.RelativePlacement.Location.Coordinates[0],3)
+    yval = round(wall.ObjectPlacement.RelativePlacement.Location.Coordinates[1],3)
+    zval = round(wall.ObjectPlacement.RelativePlacement.Location.Coordinates[2],3)
+    
+    # Evaluating for missing properties in coordinates:
+    wall_xval.append("ERROR")  if xval == ""  else  wall_xval.append(xval)
+    wall_yval.append("ERROR")  if yval == ""  else  wall_yval.append(yval)
+    wall_zval.append("ERROR")  if zval == ""  else  wall_zval.append(zval)
 
 
-    #Extracting wall type (Virker)
-    for relAssociatesMaterial in wall.HasAssociations:
-        material_wall = relAssociatesMaterial.RelatingMaterial.ForLayerSet.LayerSetName
-
-        material_w = material_wall
-        material_w = float('nan')                   # laver NaN af data der ikke er et tal
-        wall_type_ch = math.isnan(volume_w)         # tjekker om den fundet værdi er et NaN
-
-        if wall_type_ch == True :                   # Hvis findet værdi er et NaN SÅ:
-            material_w_ch = material_wall
-        else:                                       # Hvis findet værdi ikke er et NaN SÅ:
-            material_w_ch = 'Error'                 
-
-        wall_Type.append(material_w_ch)
-
+# Creating collective dataframe matrix:
+dataframe_walls = [wall_num, wall_El_name, wall_Level, wall_Type, wall_Width, wall_Height, wall_Lenght, wall_Volume, wall_xval, wall_yval, wall_zval]
+walls_dataframe = numpy.transpose(dataframe_walls)
 
 
 
 
 ######## SLABS:
-# Creating empty property vectors:
-slabs_structural = [] ; slab_num = [] ; slab_El_name = [] ; slab_Perimeter = [] ; slab_Type = []
-slab_Area = [] ; slab_Volume = [] ; slab_Thickness = [] ; slab_Level = []
-slab_xval = [] ; slab_yval = [] ; slab_zval = [] ; xval = [] ; yval = [] ; zval = []
+slabs_structural = [] 
+slab_num = [] 
+slab_El_name = [] 
+slab_Perimeter = [] 
+slab_Type = []
+slab_Area = [] 
+slab_Volume = [] 
+slab_Thickness = [] 
+slab_Level = []
+slab_xval = [] 
+slab_yval = [] 
+slab_zval = []
 num = 0
 
 
@@ -344,70 +382,66 @@ for slab in slabs:
 
 # Extracting properties:
 for slab in slabs_structural:
+
+    # slab numbering:
     num = num+1
     slab_num.append("Slab"+str(num))
-    slab_El_name.append(slab.Name)
-    #
+
+    # Element name:
+    name_s = slab.Name
+    slab_El_name.append("ERROR")  if  name_s == ""  else  slab_El_name.append(name_s)
+    
     # Extracting dimensional properties:
+    perimeter_s = [] ; area_s = [] ; volume_s = [] ; thickness_s = []
+    
     for definition in slab.IsDefinedBy:
         if definition.is_a('IfcRelDefinesByProperties'):
             property_set = definition.RelatingPropertyDefinition
             if property_set.Name == "PSet_Revit_Dimensions":
-                call_a = "ERROR"  ;  call_b = "ERROR"  ;  call_c = "ERROR" ; call_d = "ERROR"
                 for property in property_set.HasProperties:
                     # Perimeter properties:
                     if property.Name == "Perimeter":
-                        call_a = round(property.NominalValue.wrappedValue, 2)
+                        perimeter_s = round(property.NominalValue.wrappedValue, 2)
                     # Area Properties:
                     elif property.Name == "Area":
-                        call_b = round(property.NominalValue.wrappedValue, 2)
+                        area_s = round(property.NominalValue.wrappedValue, 2)
                     # Volume Properties:
                     elif property.Name == "Volume":
-                        call_c = round(property.NominalValue.wrappedValue, 2)
+                        volume_s = round(property.NominalValue.wrappedValue, 2)
                     # Thickness properties:
                     elif property.Name == "Thickness":
-                        call_d = round(property.NominalValue.wrappedValue, 2)
-                # Assigning result of logical test's:
-                slab_Perimeter.append(call_a)
-                slab_Area.append(call_b)
-                slab_Volume.append(call_c)
-                slab_Thickness.append(call_d)
-            #
+                        thickness_s = round(property.NominalValue.wrappedValue, 2)
+            
             # Extracting reference level:
             if property_set.Name == "PSet_Revit_Constraints":
-                call_a = "ERROR"
                 for property in property_set.HasProperties:
                     if property.Name == "Level":
-                        call_a = property.NominalValue.wrappedValue
-                slab_Level.append(call_a)
-    #
+                        level_s = property.NominalValue.wrappedValue
+                
+    # Evaluating for missing properties:
+    slab_Perimeter.append("ERROR")  if  perimeter_s == ""  else  slab_Perimeter.append(perimeter_s)
+    slab_Area.append("ERROR")       if  area_s == ""       else  slab_Area.append(area_s)
+    slab_Volume.append("ERROR")     if  volume_s == ""     else  slab_Volume.append(volume_s)
+    slab_Thickness.append("ERROR")  if  thickness_s == ""  else  slab_Thickness.append(thickness_s)
+    slab_Level.append("ERROR")      if  level_s == ""      else  slab_Level.append(level_s)
+    
     # Extracting Material:
+    type_s = []
     for RAM in slab.HasAssociations:
-        call_a = "ERROR"
-        material = RAM.RelatingMaterial.ForLayerSet.LayerSetName
-        if material == "":
-            slab_Type.append(call_a)
-        else:
-            slab_Material.append(material)
-    #
+        type_s = RAM.RelatingMaterial.ForLayerSet.LayerSetName
+    # Evaluating for missing properties:
+    slab_Type.append("ERROR")  if type_s == ""  else slab_Type.append(type_s)
+    
     # Extracting coordinates
-    call_a = "ERROR"
+    xval = [] ; yval = [] ; zval = []
     xval = round(slab.ObjectPlacement.RelativePlacement.Location.Coordinates[0],3)
     yval = round(slab.ObjectPlacement.RelativePlacement.Location.Coordinates[1],3)
     zval = round(slab.ObjectPlacement.RelativePlacement.Location.Coordinates[2],3)
-    # searching for errors:
-    if xval == "":
-        slab_xval.append(call_a)
-    else:
-        slab_xval.append(xval)
-    if yval == "":
-        slab_yval.append(call_a)
-    else:
-        slab_yval.append(yval)
-    if zval == "":
-        slab_zval.append(call_a)
-    else:
-        slab_zval.append(zval)
+    
+    # Evaluating for missing properties in coordinates:
+    slab_xval.append("ERROR")  if xval == ""  else  slab_xval.append(xval)
+    slab_yval.append("ERROR")  if yval == ""  else  slab_yval.append(yval)
+    slab_zval.append("ERROR")  if zval == ""  else  slab_zval.append(zval)
 
 
 dataframe_slabs = [slab_num, slab_El_name, slab_Level, slab_Type, slab_Thickness, slab_Area, slab_Perimeter, slab_Volume, slab_xval, slab_yval, slab_zval]
