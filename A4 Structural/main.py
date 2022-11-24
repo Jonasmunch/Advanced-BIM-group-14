@@ -609,7 +609,61 @@ worksheet5.conditional_format(1,0,columns_rows,columns_columns,  {'type': 'text'
 worksheet5.conditional_format(1,0,columns_rows,columns_columns, {'type': 'text', 'criteria': 'not containing', 'value': 'ERROR', 'format': green_format})
 
 
+#####
+# Creating content for Info-sheet:
 
+#
+data = [ ["Category" , "Slabs" , "Walls" , "Beams" , "Columns" , "Total" ],
+["Elements", '=COUNTA(Slabs_data[Element])' , '=COUNTA(Walls_data[Element])' , '=COUNTA(Beams_data[Element])' , '=COUNTA(Columns_data[Element])' , '=SUM(L4:L7)' ],
+["Enteties", '=COUNTA(Slabs_data[])' , '=COUNTA(Walls_data[])' , '=COUNTA(Beams_data[])' , '=COUNTA(Columns_data[])' , '=SUM(M4:M7)-N8' ],
+["Errors", '=COUNTIF(Slabs_data[], "ERROR")' , '=COUNTIF(Walls_data[], "ERROR")' , '=COUNTIF(Beams_data[], "ERROR")' , '=COUNTIF(Columns_data[], "ERROR")' , '=SUM(N4:N7)'],
+]
+
+worksheet1.write_column('K3', data[0])
+worksheet1.write_column('L3', data[1])
+worksheet1.write_column('M3', data[2])
+worksheet1.write_column('N3', data[3])
+
+
+# Preparing chards:
+pie_chart = workbook.add_chart({'type': 'pie'})
+column_chart = workbook.add_chart({'type': 'column'})
+
+# Creating pie chart:
+pie_chart.add_series({
+    'name': "Error destribution",
+    'categories': '=Info!$M$3:$N$3',
+    'values':     '=Info!$M$8:$N$8',
+    'data_labels': {'percentage': True},
+    'points': [
+        {'fill': {'color': 'green'}},
+        {'fill': {'color': 'red'}},
+    ],
+})
+
+# Creating column chart:
+column_chart.add_series({
+    'name': "Correct",
+    'categories': '=Info!$K$4:$K$7',
+    'values': '=Info!$M$4:$M$7',
+    'fill': {'color': 'green'},
+})
+column_chart.add_series({
+    'name': "Error",
+    'values': '=Info!$N$4:$N$7',
+    'fill': {'color': 'red'},
+})
+column_chart.set_title({
+    'name': 'Category results',
+    'name_font': {
+        'name': 'Calibri',
+        'color': 'black',
+    },
+})
+
+# Insetting charts into Info sheet:
+worksheet1.insert_chart('B3', pie_chart)
+worksheet1.insert_chart('B18', column_chart)
 
 workbook.close()
 
