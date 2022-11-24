@@ -2,6 +2,8 @@
 #### Initial code info                     ####
 ###############################################
 
+# Created in 2022 by: Joakim B. Mørk, Oscar H. Hansen, Valdemar Rasmussen, Jonas Munch.
+
 # To run code following 3 packages must be installed to pip (pip install [package]): 
 # (1) ExcelWriter  (2) numpy
 
