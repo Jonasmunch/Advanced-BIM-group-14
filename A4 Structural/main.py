@@ -485,6 +485,7 @@ worksheet5 = workbook.add_worksheet('Columns')
 # Formatting:
 red_format = workbook.add_format({'bg_color': '#FFC7CE', 'font_color': '#9C0006'})
 green_format = workbook.add_format({'bg_color':   '#C6EFCE', 'font_color': '#006100'})
+Info_format = workbook.add_format({'font_size': '20', 'border': True})
 
 
 ######
@@ -621,10 +622,10 @@ data = [ ["Category" , "Slabs" , "Walls" , "Beams" , "Columns" , "Total" ],
 ["Errors", '=COUNTIF(Slabs_data[], "ERROR")' , '=COUNTIF(Walls_data[], "ERROR")' , '=COUNTIF(Beams_data[], "ERROR")' , '=COUNTIF(Columns_data[], "ERROR")' , '=SUM(N4:N7)'],
 ]
 
-worksheet1.write_column('K3', data[0])
-worksheet1.write_column('L3', data[1])
-worksheet1.write_column('M3', data[2])
-worksheet1.write_column('N3', data[3])
+worksheet1.write_column('K3', data[0], Info_format)
+worksheet1.write_column('L3', data[1], Info_format)
+worksheet1.write_column('M3', data[2], Info_format)
+worksheet1.write_column('N3', data[3], Info_format)
 
 
 # Preparing chards:
