@@ -615,7 +615,7 @@ worksheet5.conditional_format(1,0,columns_rows,columns_columns, {'type': 'text',
 #
 data = [ ["Category" , "Slabs" , "Walls" , "Beams" , "Columns" , "Total" ],
 ["Elements", '=COUNTA(Slabs_data[Element])' , '=COUNTA(Walls_data[Element])' , '=COUNTA(Beams_data[Element])' , '=COUNTA(Columns_data[Element])' , '=SUM(L4:L7)' ],
-["Enteties", '=COUNTA(Slabs_data[])' , '=COUNTA(Walls_data[])' , '=COUNTA(Beams_data[])' , '=COUNTA(Columns_data[])' , '=SUM(M4:M7)-N8' ],
+["Enteties", '=COUNTA(Slabs_data[])-N4' , '=COUNTA(Walls_data[])-N5' , '=COUNTA(Beams_data[])-N6' , '=COUNTA(Columns_data[])-N7' , '=SUM(M4:M7)' ],
 ["Errors", '=COUNTIF(Slabs_data[], "ERROR")' , '=COUNTIF(Walls_data[], "ERROR")' , '=COUNTIF(Beams_data[], "ERROR")' , '=COUNTIF(Columns_data[], "ERROR")' , '=SUM(N4:N7)'],
 ]
 
