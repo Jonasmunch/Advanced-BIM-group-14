@@ -573,7 +573,7 @@ if columns_rows <= 0:
     columns_rows = 1
     columns_columns = 13
     worksheet5.add_table(0,0,columns_rows,columns_columns, { 
-    'data': [["ERROR", "ERROR"]],
+    'data': [],
     'style': 'Table Style Light 11',
     'name': "Columns_data",
     'columns': [{'header': 'Element'}, {'header': 'Element Name'}, {'header': 'Ref_level'}, {'header': 'Material'}, 
