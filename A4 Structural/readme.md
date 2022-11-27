@@ -1,21 +1,21 @@
-#### Tool Made by:
+### Tool Made by:
 Oscar H. Hansen, Joakim B. Mørk, Valdemar Rasmussen and Jonas M. Hansen. 2022
  
-## Beginning remarks:  
+# Beginning remarks:  
 The goal was to make a universal script that would work for any IFC model that lives up to the standards of IFC modeling. 
 For this project the scripting is based on a specific Ifc file(duplex.A) that does not live up to all of the standards for IFC modeling. This makes it hard to make a script that works on the available IFC models. So, the main.py script does not live up to the goal of a universal program for IFC, and therefore has some shortcomings.
 
 Other shortcomings come from the way the data is accessed, because in this project, the path to a given data has been found using the duplex IFC model. So, for certain elements the program cannot find the information it needs, from another IFC model, for instance with the beams. The duplex model only contains HEB beams, so the program can only find information about HEB. If a model for instance contains another type of beam or the information is stored differently, this program will not be able to find all the available information. Therefore, a check system has been made to tell the user that if there is an error present and show what information it wasn’t able to find as well as inform the architects that some information is missing in the model. 
 
-## Tool workflow:
+# Tool idea:
 The tool is thought out to extract information relevant for doing structural analysis of an ifc model. The extracted information is passed into excel where missing information is pointed out and relevant statistics are presented in an 'infosheet', giving the engineer an overview of how sufficiently the file is documented in terms of ifcopenshell, before structural analysis is done. 
 
-## Markdown:
+# Markdown:
 
-### Initial script preporation and packaging loading (Line: 7-37):
+## Initial script preporation and packaging loading (Line: 7-37):
 *Code line 7-9*
 - For this script to work the listed packages is needed.  
- 
+
 *Line 16-23*
 - Using the tkinter function to open a file via the users computers explorer.  
 - The file is then saved as a path which is defined by the file that the user picks.  
@@ -28,7 +28,8 @@ The tool is thought out to extract information relevant for doing structural ana
 - The elements are defined with the standard Ifc names.  
 
 
-### Beams information extraction (Line: 38-152):
+
+## Beams information extraction (Line: 38-152):
 *Line 38-43*
 - Creating empty vectors so that it is easy to fill them out later when the  
   information about the elements have been found.  
@@ -42,7 +43,7 @@ The tool is thought out to extract information relevant for doing structural ana
 - A for loop is made for all beams.  
 - The first information to be extracted is the beam numbering and beam name.  
 - For the beam name is the script cannot find a beam.Name then it will be defined as ERROR 
- 
+
 *Line 77-126*
 - Extracting material properties for the beams 
 - The path to the information is specified for every property with the specific names found in the Ifc file.  
@@ -58,12 +59,12 @@ The tool is thought out to extract information relevant for doing structural ana
 
 
 
-### Columns information extraction (Line: 155-259):
+## Columns information extraction (Line: 155-259):
 - The columns are made exactly the same as the beams.  
  
  
 
-### Walls information extraction (Line: 260-355):
+## Walls information extraction (Line: 260-355):
 *Line 260 – 279*
 - Empty vector are made for all of the information about the walls that we want to find. 
 
@@ -83,7 +84,7 @@ The tool is thought out to extract information relevant for doing structural ana
 - All of the vectors are combined into to a matrix, and saved as dataframe_walls. 
 
 
-### Slabs information extraction:
+## Slabs information extraction:
 *Line 363-375*
 - Creating empty vectors just as done for beams, columns, and walls. 
 
@@ -99,7 +100,7 @@ The tool is thought out to extract information relevant for doing structural ana
 *Line 401-452*
 - The same is done as for beams, columns, and walls where properties are extracted from the structural walls, putting “ERROR” where the code fails to find the right property and putting the found properties in a vertical vector instead for later use. 
 
-### Excel document creation:
+## Excel document creation:
 *Line 460-466*
 - Making a dialog box appear where the name of the future excel file with the properties can be written. 
 
@@ -122,7 +123,7 @@ The tool is thought out to extract information relevant for doing structural ana
 -The workbook of excel is closed 
  
  
-## Future work: 
+# Future work: 
 The future work for this tool could involve that it was fitted to a more general IFC file. This would mean that it could find all of the parameters in the building.  
 Furthermore, this group had the idea to make a dashboard that could gather all the information to make it more manageable. The dashboard would ideally be on a website or a program that is more sensible than excel, to give others working on the program an overview of what information is missing for the building to make structural calculations. 
 An example of this can be seen below.  
