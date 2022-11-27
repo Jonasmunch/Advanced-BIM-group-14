@@ -84,7 +84,7 @@ The tool is thought out to extract information relevant for doing structural ana
 - All of the vectors are combined into to a matrix, and saved as dataframe_walls. 
 
 
-## Slabs information extraction:
+## Slabs information extraction (Line: 363-452):
 *Line 363-375*
 - Creating empty vectors just as done for beams, columns, and walls. 
 
@@ -100,7 +100,7 @@ The tool is thought out to extract information relevant for doing structural ana
 *Line 401-452*
 - The same is done as for beams, columns, and walls where properties are extracted from the structural walls, putting “ERROR” where the code fails to find the right property and putting the found properties in a vertical vector instead for later use. 
 
-## Excel document creation:
+## Excel document creation (Line: 460-671):
 *Line 460-466*
 - Making a dialog box appear where the name of the future excel file with the properties can be written. 
 
